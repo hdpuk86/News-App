@@ -19,36 +19,42 @@ export default function All() {
 
   return (
     <NativeBaseProvider>
-      <FlatList
-        keyExtractor={(item) => item.title.trim()}
-        data={newsData}
-        renderItem={({ item }) => (
-          <View>
-            <View style={styles.newsContainer}>
-              <Image
-                width={550}
-                height={250}
-                resizeMode={"cover"}
-                source={{
-                  uri: item.urlToImage,
-                }}
-                alt={item.title}
-              />
-              <Text style={styles.title}>
-                {item.title}
-              </Text>
-              <Text style={styles.date}>
-                {moment(item.publishedAt).format('LLL')}
-              </Text>
-              <Text style={styles.newsDescription}>
-                {item.description}
-              </Text>
-            </View>
+      {newsData.length > 1 ? (
+        <FlatList
+          keyExtractor={(item) => item.title.trim()}
+          data={newsData}
+          renderItem={({ item }) => (
+            <View>
+              <View style={styles.newsContainer}>
+                <Image
+                  width={550}
+                  height={250}
+                  resizeMode={"cover"}
+                  source={{
+                    uri: item.urlToImage,
+                  }}
+                  alt={item.title}
+                />
+                <Text style={styles.title}>
+                  {item.title}
+                </Text>
+                <Text style={styles.date}>
+                  {moment(item.publishedAt).format('LLL')}
+                </Text>
+                <Text style={styles.newsDescription}>
+                  {item.description}
+                </Text>
+              </View>
 
-            <Divider my={2} bg="#e0e0e0" />
-          </View>
-        )}
-      />
+              <Divider my={2} bg="#e0e0e0" />
+            </View>
+          )}
+        />
+      ) : (
+        <View style={styles.spinner}>
+          <Spinner color="danger.400" />
+        </View>
+      )}
     </NativeBaseProvider>
   );
 }
@@ -69,4 +75,10 @@ const styles = StyleSheet.create({
   date: {
     fontSize: 14
   },
+  spinner: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 400
+  }
 });
